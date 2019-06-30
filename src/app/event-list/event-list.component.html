@@ -1,0 +1,24 @@
+<main>
+    <section class='search'>
+        <input type="text" class='search-input' placeholder="SEARCH EVENTS" [(ngModel)]="searchText" autofocus/>
+    </section>
+    <section class="events">
+        <ul>
+            <li *ngFor='let data of eventData | search:searchText' class="eventsList">               
+                <h2 style="text-align: center;margin:5px;">{{data.name}}</h2>                    
+                <img src="{{data.image}}" height="180px" width="100%"/>
+                <p>Date Of Event : {{data.dateOfEvent}}</p>
+                <p>No. Of Seats Available : {{data.noOfSeatsAvailable}}</p>
+                <div *ngIf="seatsCheck(data.noOfSeatsAvailable); then content else other"></div>
+                <ng-template #content>
+                    <button class="book" (click)='redirect(data)'>Book Now</button>
+                </ng-template>
+                <ng-template #other><button disabled class="book" (click)='redirect(data)'>Sold Out</button></ng-template>
+            </li>
+            
+        </ul>
+        <div *ngIf="(eventData | search: searchText).length === 0">
+            <h1 style="text-align: center;">"No Results Found!"</h1>
+        </div>
+    </section>
+</main>
